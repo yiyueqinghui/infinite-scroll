@@ -43,11 +43,31 @@
 	        #railTraffic li:hover{
 	        	background-color: #D3D3D3;
 	        }
+	        
+	        /*横向滚动*/
+	       #weatherContent{
+	       	   width:400px;
+	       	   height: 30px;
+	       	   margin:0 auto;
+	       	   overflow: hidden;
+	       	   position: relative;
+	       }
+	       #notice{
+	       	   height: 100%;
+	       	   white-space: nowrap;     /*注意这点*/
+	       	   position: absolute;
+	       	   top: 0;
+	       	   left: 0;
+	       	   background: yellow;
+	       	   margin: 0;
+	       }
 		</style>
 	</head>
 
 	<body>
-		<div class="railContent">
+		<!--纵向无限滚动-->
+		<h1 style="text-align: center;">垂直滚动</h1>
+        <div class="railContent">
 			<ul id="railTraffic">
 				<li>
 					<p><span style="background:red">1</span></p>
@@ -121,10 +141,17 @@
 				</li>
 			</ul>
 		</div>
+	    
+	    <!--横向无限滚动-->
+	    <h1 style="text-align: center;">水平滚动</h1>
+	    <div id="weatherContent">
+	        <p id="notice"><span>通知：大风蓝色预警信号：渤海海峡西北风转西南风6级，阵风7到8级！！！！</span></p>
+	    </div>
+
 	</body>
 	<script>
-		//初始化
-		function init() {
+		//初始化纵向滚动
+		function initColumn() {
 			let scrollId = $('#railTraffic'),
 				scrollContent = $('.railContent')[0];
             //初始化插件
@@ -133,6 +160,7 @@
              * scrollId: 需要滚动的dom对象
              * scrollContent：滚动可视区域的dom对象（传这个是为了在数据较少时，不做滚动！不传会直接开始滚动！）
              * */
+            
 			var scrollObj = new InfiniteScoll(scrollId);
 //			var scrollObj = new InfiniteScoll(scrollId,scrollContent);
 			//鼠标移入，暂停滚动
@@ -146,7 +174,26 @@
 
 		}
 
-		init();
+		initColumn();
+		
+		//初始化纵向滚动
+		function initRow() {
+			let scrollId = $('#notice');
+			var scrollObj = new InfiniteScoll(scrollId,null,{
+				direction:'row'
+			});
+			//鼠标移入，暂停滚动
+			scrollId.mouseenter(function() {
+				scrollObj.stopScroll();
+			})
+			//鼠标移入，继续滚动
+			scrollId.mouseleave(function() {
+				scrollObj.startScroll();
+			})
+
+		}
+		initRow()
+		
 	</script>
 
 </html>
